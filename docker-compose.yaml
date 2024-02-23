@@ -1,0 +1,12 @@
+services: # 어떤 정보를 정의할거니?
+  postgres: # postgres라는 서비스를 정의할게.
+    image: postgres:15 # postgres 15버전 이미지 사용할 것이다.
+    restart: always # 시작을 할때마다 재시작 해줘.
+    volumes: # 왼쪽(현재 데이터, Host OS의 위치) : 오른쪽(image안에 존재하는 폴더, 이 위치는 데이터들이 저장되는 위치) => (동기화시킨다)
+      - ./postgres-data:/var/lib/postgresql/data 
+    ports:
+      - "5433:5432" # Host OS의 port와 image 속의 port를 연동, 따라서 Host OS의 5432에 요청을 넣게 되면, 해당 요청은 image의 postgres:15의 이미지의 port 5432에 요청이 간다.
+    environment: # 데이터베이스에 관한 정보
+      POSTGRES_USER: postgresql # image를 실행해서 postgres 이미지를 띄웠을 때, 기본 사용자의 이름은?
+      POSTGRES_PASSWORD: postgresql 
+      POSTGRES_DB: postgresql # 기본으로 사용 할 데이터베이스 이름
